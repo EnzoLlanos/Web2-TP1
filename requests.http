@@ -1,0 +1,52 @@
+@base = http://localhost:8080
+
+### 1. Salud
+GET {{base}}/health
+
+### 2. Productos - éxito: listar (paginación limit/skip)
+GET {{base}}/api/productos?limit=5&skip=0
+
+### 3. Productos - éxito: obtener uno
+GET {{base}}/api/productos/1
+
+### 4. Productos - error: id inexistente -> 404
+GET {{base}}/api/productos/999999
+
+### 5. Favoritos - éxito: crear -> 201
+POST {{base}}/api/favoritos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "nota": "Regalo para mamá"
+}
+
+### 6. Favoritos - éxito: listar -> 200
+GET {{base}}/api/favoritos
+
+### 7. Favoritos - éxito: obtener uno -> 200 (usar id devuelto en paso 5)
+GET {{base}}/api/favoritos/1
+
+### 8. Favoritos - éxito: actualizar -> 200
+PUT {{base}}/api/favoritos/1
+Content-Type: application/json
+
+{
+  "productoId": 2,
+  "nota": "Mejor este otro modelo"
+}
+
+### 9. Favoritos - éxito: eliminar -> 204
+DELETE {{base}}/api/favoritos/1
+
+### 10. Favoritos - error validación -> 400 (nota vacía + productoId nulo)
+POST {{base}}/api/favoritos
+Content-Type: application/json
+
+{
+  "productoId": null,
+  "nota": ""
+}
+
+### 11. Favoritos - error no encontrado -> 404
+GET {{base}}/api/favoritos/9999
